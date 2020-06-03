@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" type="text/css"  href="css/login.css">
+<script src="logout.js" type="text/javascript"></script>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Student Portal</title>
+
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/7.14.4/firebase-app.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/7.14.4/firebase-auth.js"></script>
+    <script defer src="/__/firebase/7.14.4/firebase-database.js"></script>
+    <script defer src="/__/firebase/7.14.4/firebase-messaging.js"></script>
+    <script defer src="/__/firebase/7.14.4/firebase-storage.js"></script>
+    <!-- initialize the SDK after all desired features are loaded -->
+    <script defer src="/__/firebase/init.js"></script>
+
+  </head>
+  <style>
+table,tr{
+  border: 1px solid black;
+  padding:15px;
+}
+th, td{
+  text-align: center;
+  text-size:25px;
+  padding: 5px;
+}
+  </style>
+  
+  <script>
+		if (sessionStorage.getItem("name") != 2)
+			{
+				window.location.replace("http://localhost/QPG/index.php");
+			}
+   </script>
+  
+  <body>
+  
+  <div class="note" style="position:fixed";>
+<a href="#"><img src="images/edu6.png"
+			height="130" width="150"style="margin:0px 0px 10px 0px"></img></a>
+			<a href="#" onclick="logout()"><img src="images/logout.png"
+			height="50" width="50"  style="margin:0px 0px 60px 1790px"></img></a>
+			<marquee style="color:blue">Welcome , Here you can Check your marks and Download Scanned Copy of your Answer Paper</marquee>
+</div>
+<br><br><br><br><br><br><br><br><br><br>
+  <div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+		<div id="Login" style="color:black" align="center">
+			<b style="font-size:30px;color:Red">View Marks</b>
+			<br><br>
+			<img src="images/edu5.png" height="150px" ;width="180px";><br><br>
+			 <b>USN</b><br><input type="text" id="usn" class="fadeIn second" required><br><br>
+			 <b>Subject code: </b><br><input type="text" id="sub" class="fadeIn second" required><br><br><br><br><br>
+<div class="box">
+<select id="semester" required>
+	<option value="">Select Semester</option>
+  <option value="1sem">1 sem</option>
+  <option value="2sem">2 sem</option>
+  <option value="3sem">3 sem</option>
+  <option value="4sem">4 sem</option>
+   <option value="5sem">5 sem</option>
+  <option value="6sem">6 sem</option>
+  <option value="7sem">7 sem</option>
+  <option value="8sem">8 sem</option>
+</select>
+</div><br><br>
+	 
+<div class="box">			 
+<select id="examtype" required>
+	<option value="">Select exam</option>
+  <option value="IA1">IA1</option>
+  <option value="IA2">IA2</option>
+  <option value="IA3">IA3</option>
+  <option value="SEE">SEE</option>
+</select>
+</div><br><br>
+<div align="center">
+	<p id="marks" style="font-size:25px";></p>
+</div>
+<br>
+<button onclick="retriveDb()" class="button">Submit</button><br><br><br><br><br>
+</div></div></div></div>
+</body>
+<script>
+function retriveDb()
+{   var firebaseConfig = {
+    apiKey: "AIzaSyDo2g5E7pH603FAjXAKkGc2rTATSKwEofs",
+    authDomain: "miniprojectp2-72429.firebaseapp.com",
+    databaseURL: "https://miniprojectp2-72429.firebaseio.com",
+    projectId: "miniprojectp2-72429",
+    storageBucket: "miniprojectp2-72429.appspot.com",
+    messagingSenderId: "857119402842",
+    appId: "1:857119402842:web:203bcf256aeb24b54ba163",
+    measurementId: "G-6FB50VJMM2"
+  };
+  // Initialize Firebase
+  //firebase.initializeApp(firebaseConfig);
+  //firebase.analytics();
+
+
+  
+	var user = document.getElementById("usn").value;
+	var sub = document.getElementById("sub").value;
+	var exam = document.getElementById("examtype").value;
+	var temp='<b style="color:red";>Marks Scored by Student in '+sub+'</b>';
+	var error='<b style="color:red";>Student Marks are not updated</b>';
+	var db=firebase.database();
+
+				if(user!=''&&sub!=''&&exam!='')
+				{
+					if(exam=='IA1'|| exam=='IA2'||exam=='IA3')
+					{	
+						db.ref('/users/'+user+'/'+sub+'/exam/'+exam).once('value').then(function(snapshot) {
+						if(snapshot.val()===null){
+							document.getElementById("marks").innerHTML=error;
+						}
+						else{
+							
+							temp+="<br><table><tr> <th>1A:</th><td>"+snapshot.val().A1+"</td></tr> <tr><th>1B </th><td>"+snapshot.val().A2+"</td></tr>";
+		                    temp+="<br><tr> <th>2A:</th><td>"+snapshot.val().B1+"</td>  </tr> <tr><th>2B </th><td>"+snapshot.val().B2+"</td></tr>";
+						    temp+="<br><tr> <th>3A:</th><td>"+snapshot.val().C1+"</td></tr> <tr><th>3B </th><td>"+snapshot.val().C2+"</td></tr>";
+						    temp+="<tr><th> TOTAL:</th><td>"+snapshot.val().Total+"</td></tr></table><br>";	
+						    
+							temp+='<a href="'+snapshot.val().PdfLink+'">Download Your Answer Script Here</a>'
+						    document.getElementById("marks").innerHTML=temp;
+						    console.log("Total Marks: "+temp);
+						
+						}
+						});
+						
+						
+					}
+					else if(exam=='SEE'){
+						db.ref('/users/'+user+'/'+sub+'/exam/'+exam).once('value').then(function(snapshot) {
+						if(snapshot.val()===null){
+							document.getElementById("marks").innerHTML=error;
+						}
+						else{
+							
+							temp+="<br><table><tr> <th>1A:</th><td>"+snapshot.val().A1+"</td></tr>";
+		                    temp+="<br><tr> <th>2A:</th><td>"+snapshot.val().A2+"</td>  </tr> <tr><th>2B: </th><td>"+snapshot.val().B2+"</td></tr>";
+						    temp+="<br><tr> <th>3A:</th><td>"+snapshot.val().A3+"</td></tr> <tr><th>3B: </th><td>"+snapshot.val().B3+"</td></tr> <tr><th>3C: </th><td>"+snapshot.val().C3+"</td></tr>";
+							 temp+="<br><tr> <th>4A:</th><td>"+snapshot.val().A4+"</td></tr> <tr><th>4B: </th><td>"+snapshot.val().B4+"</td></tr> <tr><th>4C: </th><td>"+snapshot.val().C4+"</td></tr>";
+							  temp+="<br><tr> <th>5A:</th><td>"+snapshot.val().A5+"</td></tr> <tr><th>5B: </th><td>"+snapshot.val().B5+"</td></tr><tr><th>5C: </th><td>"+snapshot.val().C5+"</td></tr>";
+							   temp+="<br><tr> <th>6A:</th><td>"+snapshot.val().A6+"</td></tr> <tr><th>6B: </th><td>"+snapshot.val().B6+"</td></tr> <tr><th>6C: </th><td>"+snapshot.val().C6+"</td></tr>";
+							    temp+="<br><tr> <th>7A:</th><td>"+snapshot.val().A7+"</td></tr> <tr><th>7B: </th><td>"+snapshot.val().B7+"</td></tr> <tr><th>7C: </th><td>"+snapshot.val().C7+"</td></tr>";
+						    temp+="<tr><th> TOTAL:</th><td>"+snapshot.val().Total+"</td></tr></table><br>";	
+						    
+							temp+='<a href="'+snapshot.val().PdfLink+'">Download Your Answer Script Here</a>'
+						    document.getElementById("marks").innerHTML=temp;
+						    //console.log("Total Marks: "+temp);
+						
+						}
+						});
+					}
+				}
+					
+	
+}
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</body>
+</html>

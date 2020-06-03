@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" type="text/css"  href="css/login.css">
+<script src="logout.js" type="text/javascript"></script>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Teacher Portal</title>
+
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/7.14.4/firebase-app.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/7.14.4/firebase-auth.js"></script>
+    <script defer src="/__/firebase/7.14.4/firebase-database.js"></script>
+    <script defer src="/__/firebase/7.14.4/firebase-messaging.js"></script>
+    <script defer src="/__/firebase/7.14.4/firebase-storage.js"></script>
+    <!-- initialize the SDK after all desired features are loaded -->
+    <script defer src="/__/firebase/init.js"></script>
+
+  </head>
+  <script>
+		if (sessionStorage.getItem("name") != 1)
+			{
+				window.location.replace("http://localhost/QPG/index.php");
+			}
+   </script>
+  
+  <body>
+  
+  <div class="note" style="position:fixed";>
+<a href="#"><img src="images/edu6.png"
+			height="130" width="150"style="margin:0px 0px 10px 0px"></img></a>
+			<a href="#" onclick="logout()"><img src="images/logout.png"
+			height="50" width="50"  style="margin:0px 0px 60px 1790px"></img></a>
+			<marquee style="color:blue">Welcome to Teacher Login. Here you can Update the students marks</marquee>
+</div>
+<br><br><br><br><br><br><br><br><br><br>
+  <div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+		<div id="Login" style="color:black" align="center">
+			<b style="font-size:30px;color:Red">Enter Marks</b>
+			<br><br>
+			<img src="images/edu5.png" height="150px" ;width="180px";><br><br>
+			 <b>USN</b><br><input type="text" id="usn" class="fadeIn second" required><br><br>
+			 <b>Subject code: </b><br><input type="text" id="sub" class="fadeIn second" required><br><br><br><br><br>
+<div class="box">
+<select id="semester">
+	<option value="">Select Semester</option>
+  <option value="1sem">1 sem</option>
+  <option value="2sem">2 sem</option>
+  <option value="3sem">3 sem</option>
+  <option value="4sem">4 sem</option>
+   <option value="5sem">5 sem</option>
+  <option value="6sem">6 sem</option>
+  <option value="7sem">7 sem</option>
+  <option value="8sem">8 sem</option>
+</select>
+</div><br><br>
+	 
+<div class="box">			 
+<select id="examtype" onchange="myFunction()">
+	<option value="">Select exam</option>
+  <option value="IA1">IA1</option>
+  <option value="IA2">IA2</option>
+  <option value="IA3">IA3</option>
+  <option value="SEE">SEE</option>
+</select>
+</div><br><br>
+<p id="marks"></p>
+<br>
+<button onclick="dataPass()" class="button">Update Marks </button><br><br><br><br><br>
+</div></div></div></div>
+</body>
+<script>
+
+
+function dataPass()
+{
+/*********Firebase Config Dont touch*************/
+
+var firebaseConfig = {
+    apiKey: "AIzaSyDo2g5E7pH603FAjXAKkGc2rTATSKwEofs",
+    authDomain: "miniprojectp2-72429.firebaseapp.com",
+    databaseURL: "https://miniprojectp2-72429.firebaseio.com",
+    projectId: "miniprojectp2-72429",
+    storageBucket: "miniprojectp2-72429.appspot.com",
+    messagingSenderId: "857119402842",
+    appId: "1:857119402842:web:203bcf256aeb24b54ba163",
+    measurementId: "G-6FB50VJMM2"
+  };
+  // Initialize Firebase
+  //firebase.initializeApp(firebaseConfig);
+  //firebase.analytics();
+  
+	var user = document.getElementById("usn").value;
+	var sub = document.getElementById("sub").value;
+	var exam = document.getElementById("examtype").value;
+	var purl;
+	
+	
+	var database=firebase.database();
+	if(exam=='IA1'||exam=='IA2'||exam=='IA3')
+		{
+		var a1 = document.getElementById("1a").value;
+		var a2 = document.getElementById("1b").value;
+		var b1 = document.getElementById("2a").value;
+		var b2 = document.getElementById("2b").value;
+		var c1 = document.getElementById("3a").value;
+		var c2 = document.getElementById("3b").value;
+		
+		
+		/****Calculation of Total Marks of IA's*******/
+		
+		}
+		/*************/
+		
+		
+	else if(exam=='SEE')
+	{
+		var a1 = document.getElementById("1a").value;
+		var b1 = document.getElementById("2a").value;
+		var b2 = document.getElementById("2b").value;
+		var c1 = document.getElementById("3a").value;
+		var c2 = document.getElementById("3b").value;
+		var c3 = document.getElementById("3c").value;
+		var d1 = document.getElementById("4a").value;
+		var d2= document.getElementById("4b").value;
+		var d3 = document.getElementById("4c").value;
+		var e1 = document.getElementById("5a").value;
+		var e2 = document.getElementById("5b").value;
+		var e3 = document.getElementById("5c").value;
+		var f1 = document.getElementById("6a").value;
+		var f2 = document.getElementById("6b").value;
+		var f3 = document.getElementById("6c").value;
+		var g1 = document.getElementById("7a").value;
+		var g2 = document.getElementById("7b").value;
+		var g3 = document.getElementById("7c").value;
+		var sum;
+		
+	}
+		
+		
+		
+		
+		
+	/**********Firebase Realtime DB Code Don't touch it**********/	
+	
+				if(user!=''&&sub!=''&&exam!='')
+				{
+					if(exam=='IA1')
+					{
+					if(a1!=''&&a2!=''&&b1!=''&&c1!=''&&c2!=''&&b2!='')
+					{     
+					
+						if(parseInt(a1)>5||parseInt(a2)>5||parseInt(b1)>5||parseInt(b2)>5||parseInt(c1)>5||parseInt(c2)>5){
+							alert(" Please Enter Valid Marks");
+						}
+						else{
+							if((parseInt(a1)+parseInt(a2))>(parseInt(b1)+parseInt(b2)))
+								var sum= (parseInt(a1)+parseInt(a2))+(parseInt(c1)+parseInt(c2));
+							else
+								var sum= (parseInt(b1)+parseInt(b2))+(parseInt(c1)+parseInt(c2));
+								
+						/***********Firebase Storage code Dont touch**********/ 
+							const ref=firebase.storage().ref(user+'/'+sub+'/'+exam)
+							
+							const file =document.querySelector("#myfile").files[0]
+							const name=sub+"-"+file.name
+							const metadata={
+								contentType:file.type
+							
+							}
+							const task=ref.child(name).put(file,metadata)
+							  task
+								.then(snapshot => snapshot.ref.getDownloadURL())
+								.then(url => {
+								  console.log(url);
+								  purl=url;
+								  console.log("Pdf uploaded Successfully:");
+								
+
+							var postData = {
+											A1:a1,
+											A2:a2,
+											B1:b1,
+											B2:b2,
+											C1:c1,
+											C2:c2,
+											Total:sum,
+											PdfLink:purl
+							  };
+							  
+							  //var newPostKey = firebase.database().ref().child('user').push().Key;
+
+							  // Write the new users data simultaneously in the users list.
+							  var updates = {};
+							  updates['/users/' + user+ '/'+sub+'/exam/'+exam] = postData;
+							  //updates['/users/'+user+'/subject/'] = postData;
+							  firebase.database().ref().update(updates);
+							  alert("Student Marks and Scanned Copy has been inserted successfully");
+							  
+							})
+								.catch(console.error);	
+						/***********/
+						}
+					}
+					else
+					{
+					alert("Enter all the Marks");
+					}
+				}
+				else if(exam=='IA2'){
+					if(a1!=''&&a2!=''&&b1!=''&&c1!=''&&c2!=''&&b2!='')
+					{
+						if(parseInt(a1)>5||parseInt(a2)>5||parseInt(b1)>5||parseInt(b2)>5||parseInt(c1)>5||parseInt(c2)>5){
+							alert(" Please Enter Valid Marks");
+						}
+						else{
+							if((parseInt(a1)+parseInt(a2))>(parseInt(b1)+parseInt(b2)))
+								var sum= (parseInt(a1)+parseInt(a2))+(parseInt(c1)+parseInt(c2));
+							else
+								var sum= (parseInt(b1)+parseInt(b2))+(parseInt(c1)+parseInt(c2));
+							
+				
+						/***********Firebase Storage code Dont touch**********/ 
+							const ref=firebase.storage().ref(user+'/'+sub+'/'+exam)
+							
+							const file =document.querySelector("#myfile").files[0]
+							
+							const name=sub+"-"+file.name
+							
+							const metadata={
+								contentType:file.type
+							
+							}
+							const task=ref.child(name).put(file,metadata)
+							  task
+								.then(snapshot => snapshot.ref.getDownloadURL())
+								.then(url => {
+								  console.log(url);
+									purl=url;
+								  console.log("Pdf uploaded Successfully");
+							
+							var postData = {
+											A1:a1,
+											A2:a2,
+											B1:b1,
+											B2:b2,
+											C1:c1,
+											C2:c2,
+											Total:sum,
+											PdfLink:purl
+							  }; 
+							  //var newPostKey = firebase.database().ref().child('user').push().Key;
+
+							  // Write the new user's data simultaneously in the user list.
+							  var updates = {};
+							  updates['/users/'+user+'/'+sub+'/exam/'+exam] = postData;
+							  //updates['/users/'+user+'/subject/'+sub] = postData;
+							  firebase.database().ref().update(updates);
+							  alert("Student Marks and Scanned Copy has been inserted successfully");
+							})
+							  .catch(console.error);	
+					/***********/	
+				   }
+				  }
+				else
+				{
+					alert("Enter all the Marks");
+				}
+				
+				}
+				else if(exam=='IA3'){
+					if(a1!=''&&a2!=''&&b1!=''&&c1!=''&&c2!=''&&b2!='')
+					{
+						if(parseInt(a1)>5||parseInt(a2)>5||parseInt(b1)>5||parseInt(b2)>5||parseInt(c1)>5||parseInt(c2)>5){
+							alert(" Please Enter Valid Marks");
+						}
+						else{
+							if((parseInt(a1)+parseInt(a2))>(parseInt(b1)+parseInt(b2)))
+								var sum= (parseInt(a1)+parseInt(a2))+(parseInt(c1)+parseInt(c2));
+							else
+								var sum= (parseInt(b1)+parseInt(b2))+(parseInt(c1)+parseInt(c2));
+							
+						/***********Firebase Storage code Dont touch**********/ 
+							const ref=firebase.storage().ref(user+'/'+sub+'/'+exam)
+							
+							const file =document.querySelector("#myfile").files[0]
+							
+							const name=sub+"-"+file.name
+							
+							const metadata={
+								contentType:file.type
+							
+							}
+							const task=ref.child(name).put(file,metadata)
+							  task
+								.then(snapshot => snapshot.ref.getDownloadURL())
+								.then(url => {
+								  console.log(url);
+									purl=url;
+								  console.log("Pdf uploaded Successfully");
+								
+							var postData = {
+											A1:a1,
+											A2:a2,
+											B1:b1,
+											B2:b2,
+											C1:c1,
+											C2:c2,
+											Total:sum,
+											PdfLink:purl
+							  };
+							  
+							  //var newPostKey = firebase.database().ref().child('user').push().Key;
+
+							  // Write the new user's data simultaneously in the users listw.
+							  var updates = {};
+							  updates['/users/'+user+'/'+sub+'/exam/'+exam] = postData;
+							  //updates['/users/'+user+'/subject/'+sub] = postData;
+							  firebase.database().ref().update(updates);
+							  alert("Student Marks and Scanned Copy has been inserted successfully");
+							})
+								.catch(console.error);	
+						/***********/	
+					}
+					}
+					else
+					{
+					alert("Enter all the Marks");
+					}
+				}
+				else if(exam=='SEE'){
+					if(a1!=''&&a2!=''&&b1!=''&&c1!=''&&c2!=''&&b2!=''&&c3!=''&&d1!=''&&d2!=''&&d3!=''&&e1!=''&&e2!=''&&e3!=''&&f1!=''&&f2!=''&&f3!=''&&g1!=''&&g2!=''&&g3!='')
+					{   /**********Calculation of Total Marks of SEE's**********/
+		
+		             var fa=parseInt(c1)+parseInt(c2)+parseInt(c3);
+					 var fb=parseInt(d1)+parseInt(d2)+parseInt(d3);
+					 var fc=parseInt(e1)+parseInt(e2)+parseInt(e3);
+					 var fd=parseInt(f1)+parseInt(f2)+parseInt(f3);
+					 var fe=parseInt(g1)+parseInt(g2)+parseInt(g3);
+					 if((fa)>20||(fb)>20||(fc)>20||(fd)>20||(fe)>20||parseInt(a1)>10||parseInt(b1)>5||parseInt(b2)>5)
+					 {
+						alert("Please Enter Valid Marks");
+					 }
+					 else{
+					 if((fa<=fb)&&(fa<=fc)&&(fa<=fd)&&(fa<=fe))
+					 {
+						sum=fb+fc+fd+fe;
+					 }
+					 else if((fb<=fa)&&(fb<=fc)&&(fb<=fd)&&(fb<=fe))
+					 {
+						sum=fa+fc+fd+fe;
+					 }
+					else if((fc<=fb)&&(fc<=fa)&&(fc<=fd)&&(fc<=fe))
+					 {
+						sum=fc+fa+fb+fe;
+					 }
+					 else((fd<=fb)&&(fd<=fc)&&(fd<=fa)&&(fd<=fe))
+					 {
+						sum=fb+fc+fd+fa;
+					 }
+					 
+					 
+					sum=sum+parseInt(a1)+parseInt(b2)+parseInt(b1)
+
+		                /*****************/
+						
+						/***********Firebase Storage code Dont touch**********/ 
+						const ref=firebase.storage().ref(user+'/'+sub+'/'+exam)
+						
+						const file =document.querySelector("#myfile").files[0]
+						
+						const name=sub+"-"+file.name
+						
+						const metadata={
+							contentType:file.type
+						
+						}
+						const task=ref.child(name).put(file,metadata)
+						  task
+							.then(snapshot => snapshot.ref.getDownloadURL())
+							.then(url => {
+							  console.log(url);
+							   purl=url;
+							  console.log("Pdf uploaded Successfully");
+							
+					 
+						var postData = {
+						"A1":a1,
+						"A2":b1,
+						"B2":b2,
+						"A3":c1,
+						"B3":c2,
+						"C3":c3,
+						"A4":d1,
+						"B4":d2,
+						"C4":d3,
+						"A5":e1,
+						"B5":e2,
+						"C5":e3,
+						"A6":f1,
+						"B6":f2,
+						"C6":f3,
+						"A7":g1,
+						"B7":g2,
+						"C7":g3,
+						"Total":sum,
+						"PdfLink":purl
+						  };
+						  
+						  //var newPostKey = firebase.database().ref().child('user').push().Key;
+
+						  // Write the new user's data simultaneously in the users listw.
+						  var updates = {};
+						  updates['/users/'+user+'/'+sub+'/exam/'+exam] = postData;
+						  //updates['/users/'+user+'/subject/'+sub] = postData;
+						  firebase.database().ref().update(updates);
+						  alert("Student Marks and Scanned Copy has been inserted successfully");
+						  
+						})
+							.catch(console.error);	
+		
+						/***********/
+					}
+				}
+				}
+				else
+				{
+					alert("Enter all the Marks");
+				}
+				
+				}
+				
+				else{
+					alert("USN or Subject is missing");
+				}
+
+	/**********End of Firebase Realtime Db*********/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}
+
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+function myFunction() {
+  var x = document.getElementById("examtype").value;
+  if(x=='IA1'||x=='IA2'||x=='IA3')
+  {
+    var temp='<table><tr> <th>1a</th><th><input type="number" id="1a"></input></th></tr><tr></tr><tr></tr><tr> <th>1b</th><th><input type="number" id="1b"></input></th></tr><tr></tr><tr></tr><tr> <th>2a</th><th><input type="number" id="2a"></input></th></tr><tr></tr><tr></tr><tr> <th>2b</th><th><input type="number" id="2b"></input></th></tr><tr></tr><tr></tr><tr> <th>3a</th><th><input type="number" id="3a"></input></th></tr><tr></tr><tr></tr><tr> <th>3b</th><th><input type="number" id="3b"></input></th></tr><tr><th>Upload Scanned Copy</th><th><input type="file" value="upload" id="myfile"  required></input></th></tr></table>';
+  }
+  else if(x=='SEE')
+  {
+    var temp='<table><tr> <th>1a</th><th><input type="number" id="1a"></input></tr><tr><th>2a</th><th><input type="number" id="2a"></input></th></tr><tr></tr><tr></tr><tr> <th>2b</th><th><input type="number" id="2b"></input></th></tr><tr></tr><tr></tr><tr> <th>3a</th><th><input type="number" id="3a"></input></th></tr><tr></tr><tr></tr><tr> <th>3b</th><th><input type="number" id="3b"></input></th></tr><tr></tr><tr></tr><tr> <th>3c</th><th><input type="number" id="3c"></input></th></tr><tr></tr><tr> <th>4a</th><th><input type="number" id="4a"></input></th></tr><tr></tr><tr> <th>4b</th><th><input type="number" id="4b"></input></th></tr><tr></tr><tr> <th>4c</th><th><input type="number" id="4c"></input></th></tr><tr></tr><tr> <th>5a</th><th><input type="number" id="5a"></input></th></tr><tr></tr><tr> <th>5b</th><th><input type="number" id="5b"></input></th></tr><tr></tr><tr> <th>5c</th><th><input type="number" id="5c"></input></th></tr><tr></tr><tr> <th>6a</th><th><input type="number" id="6a"></input></th></tr><tr></tr><tr> <th>6b</th><th><input type="number" id="6b"></input></th></tr><tr></tr><tr> <th>6c</th><th><input type="number" id="6c"></input></th></tr><tr></tr><tr> <th>7a</th><th><input type="number" id="7a"></input></th></tr><tr></tr><tr> <th>7b</th><th><input type="number" id="7b"></input></th></tr><tr></tr><tr> <th>7c</th><th><input type="number" id="7c"></input></th></tr><tr><th>Upload Scanned Copy</th><th><input type="file" value="upload" id="myfile" required></input></th></tr></table>';
+  }
+  document.getElementById("marks").innerHTML=temp;
+};
+</script>
+
+</body>
+</html>

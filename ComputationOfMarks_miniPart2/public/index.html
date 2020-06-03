@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Acknowledgement</title>
+</head>
+<body>
+<script>
+var queryString = decodeURIComponent(window.location.search);
+queryString = queryString.substring(1);
+var queries = queryString.split("&");
+for (var i = 0; i < queries.length; i++)
+{
+  if(queries[i]=='NZi42UDfiP5vZ7pJ')
+  {
+	sessionStorage.setItem("name",1);
+	window.location.replace("main.html");
+	}
+	else if(queries[i]=='YW6Oj7Rbsa44TaHI')
+	{
+	sessionStorage.setItem("name",2);
+	window.location.replace("TM.html");
+	
+	}
+}
+</script> 
+</body>
+</html>

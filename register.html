@@ -1,0 +1,73 @@
+<?php
+session_start ();
+if ((isset( $_SESSION['login'] )))
+	{	
+		if(($_SESSION['type'])==1)
+		{
+			header('refresh:0;url=teacher.php');
+		}
+	else
+	{
+		header('refresh:0;url=student.php');		
+	}
+	}
+?>
+<html lang="en">
+<head>
+	<title>Login QPG</title>
+
+    <link rel="stylesheet" type="text/css" href="css/login.css" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+	
+	<div class="limiter">
+		<div class="container-login100" style="background-image: url('images/bg-01.jpg');">
+				<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+		<br>
+			<b style="font-size:30px;color:Red">Register</b>
+			<br><br>
+			<img src="images/edu5.png"
+			height="150" width="150"><br><br>
+			<form action="register.php" method="post">
+			<b style="color:violet">Name</b><br>
+			
+			<input type="text" class="fadeIn second"  name="name" placeholder="Enter your name" required><br><br>
+			
+			
+			<input type="text" class="fadeIn second"  name="email" placeholder="Enter your email" title="ex@abc.xyz" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required><br><br>
+			<b style="color:violet">SET Password</b><br>
+			
+			<input type="text" class="fadeIn second" type="password" name="password" placeholder="Enter Password" required><br><br>
+		<b style="color:violet">Gender</b><br>
+					<div>
+						<select name="gender" required>
+						    <option value="">Select your option</option>
+							<option value="male">MALE</option>
+							<option value="female">FEMALE</option>
+							<option value="others">OTHERS</option>
+						</select><br><br>
+					</div>
+			
+			<div class="container">
+			  <input type="submit" value="Register"></input>
+			  <a href="index.php">Have account?</a>
+			  <br><br>
+</form>				  	
+			
+		    </div>
+			</div>
+
+  </div>
+</div>	
+	</div>
+	</div>
+
+</body>
+</html>
